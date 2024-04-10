@@ -16,6 +16,7 @@ struct ContentView: View {
     
     @State private var showPunchline = false
     @State private var currentJokeIndex = 0
+    @State private var isFeedbackPresented = false
     
     var body: some View {
         ZStack {
@@ -24,10 +25,11 @@ struct ContentView: View {
                     if showPunchline {
                         currentJokeIndex += 1
                         showPunchline = false
+                        isFeedbackPresented = true
                     }
                 }
             VStack {
-                Text(jokes[currentJokeIndex].setup)
+                Text(jokes[currentJokeIndex % jokes.count].setup)
                     .padding()
                 
                 Button {
@@ -42,15 +44,23 @@ struct ContentView: View {
                 .padding()
                 
                 if showPunchline {
-                    Text(jokes[currentJokeIndex].punchline)
+                    Text(jokes[currentJokeIndex % jokes.count].punchline)
                         .padding()
                         .opacity(showPunchline ? 1 : 0)
                     
                     Text("Tap to continue")
                         .italic()
                         .padding()
-                        .opacity(showPunchline ? 1 : 0) 
+                        .opacity(showPunchline ? 1 : 0)
                 }
+            }
+        }
+        .alert("Did you like the last joke?", isPresented: $isFeedbackPresented) {
+            Button("😃") {
+                print("good")
+            }
+            Button("😭") {
+                print("you're a terrible person")
             }
         }
     }
