@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var jokes = [Joke(setup: "Why couldn't the bicycle stand up?", punchline: "It was two tired!"), Joke(setup: <#T##String#>, punchline: <#T##String#>)]
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
