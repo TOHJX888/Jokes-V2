@@ -14,27 +14,44 @@ struct ContentView: View {
      Joke(setup: "Why did the chicken cross the road?", punchline: "To get to the other side!"),
     ]
     
+    @State private var showPunchline = false
+    @State private var currentJokeIndex = 0
+    
     var body: some View {
-        VStack {
-            Text(jokes[0].setup)
-                .padding()
-            
-            Button {
-                print("Button tapped!")
-            } label: {
-                Text("What?")
+        ZStack {
+            Color(.systemBackground)
+                .onTapGesture {
+                    if showPunchline {
+                        currentJokeIndex += 1
+                        showPunchline = false
+                    }
+                }
+            VStack {
+                Text(jokes[currentJokeIndex].setup)
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
+                
+                Button {
+                    print("Button tapped!")
+                    showPunchline = true
+                } label: {
+                    Text("What?")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                }
+                .padding()
+                
+                if showPunchline {
+                    Text(jokes[currentJokeIndex].punchline)
+                        .padding()
+                        .opacity(showPunchline ? 1 : 0)
+                    
+                    Text("Tap to continue")
+                        .italic()
+                        .padding()
+                        .opacity(showPunchline ? 1 : 0) 
+                }
             }
-            .padding()
-            
-            Text(jokes[0].punchline)
-                .padding()
-            
-            Text("Tap to continue")
-                .italic()
-                .padding()
         }
     }
 }
